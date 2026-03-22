@@ -1,4 +1,4 @@
-name: Deploy Code Editor PWA
+name: Deploy Vite App to GitHub Pages
 
 on:
   push:
@@ -11,20 +11,38 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Repo clone
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Node setup
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # 3️⃣ Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # 4️⃣ Build project (Vite build → dist folder)
+      - name: Build Project
+        run: npm run build
+
+      # 5️⃣ Setup Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # 6️⃣ Upload dist folder
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .   # your project root
+          path: dist
 
+      # 7️⃣ Deploy
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

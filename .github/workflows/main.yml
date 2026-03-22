@@ -1,4 +1,4 @@
-name: Deploy Offline Code Editor
+name: Deploy Code Editor PWA
 
 on:
   push:

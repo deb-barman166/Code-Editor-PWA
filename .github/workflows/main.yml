@@ -1,0 +1,48 @@
+name: Build & Deploy Vite App
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Clone repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Node
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # 3️⃣ Install dependencies (FIXED)
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      # 4️⃣ Build project
+      - name: Build
+        run: npm run build
+
+      # 5️⃣ Setup Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 6️⃣ Upload dist
+      - name: Upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      # 7️⃣ Deploy
+      - name: Deploy
+        uses: actions/deploy-pages@v4

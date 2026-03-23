@@ -7,30 +7,10 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    plugins: [
-      react(), 
-      tailwindcss(),
-      VitePWA({
-        registerType: 'autoUpdate',
-        manifest: {
-          name: 'Code Editor PWA',
-          short_name: 'Editor',
-          description: 'Offline-capable code editor',
-          theme_color: '#1e1e1e',
-          background_color: '#1e1e1e',
-          display: 'standalone',
-          icons: [
-            {
-              src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
-              sizes: '192x192',
-              type: 'image/svg+xml'
-            },
-            {
-              src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
-              sizes: '512x512',
-              type: 'image/svg+xml'
-            }
-          ]
+    // এই নিচের লাইনটি যোগ করুন। আপনার রিপোজিটরির নাম দিন।
+    base: 'Code-Editor-PWA', 
+
+    plugins:
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
@@ -62,8 +42,6 @@ export default defineConfig(({mode}) => {
       },
     },
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
     },
   };
